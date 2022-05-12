@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="member-mapping">
+
+
+
+<select id="MEMBERSELECT"  parameterType="MemberVo"  resultType="MemberVo">
+   select  *  from  member1001
+   where 1 = 1
+   <if test="ch1=='name'" >
+      <![CDATA[
+        and  name  like '%'||#{ch2}||'%'
+      ]]>
+    
+   </if>
+   <if test="ch1=='roadAddress'" >
+       <![CDATA[
+         and  roadAddress  like '%'||#{ch2}||'%'
+       ]]>
+   </if>
+</select>
+
+
+<select id="IDCK"  parameterType="MemberVo"  resultType="MemberVo">
+   select  *  from  member1001 
+   where id=#{id}      
+</select>
+
+
+
+
+<insert id="MEMBERINSERT" parameterType="MemberVo"   >
+  insert  into member1001(id, pwd, name, tel, postcode, roadAddress , detailAddress, extraAddress ,emp_no  ) 
+  values(#{id}, #{pwd}, #{name}, #{tel}, #{postcode}, #{roadAddress} , #{detailAddress}, #{extraAddress} ,  s0407.nextval ) 
+</insert>
+
+
+
+</mapper>
+
+
+ 

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="psd-mapping">
+
+<!--  
+<select id="PSDSELECT"  parameterType="PsdVo"  resultType="PsdVo">
+   select  *  from  shopping1000 
+   where 1 = 1
+   <if test="ch1=='title'" >
+      <![CDATA[
+        and  title  like '%'||#{ch2}||'%'
+      ]]>
+    
+   </if>
+   <if test="ch1=='pname'" >
+       <![CDATA[
+         and  pname  like '%'||#{ch2}||'%'
+       ]]>
+   </if>
+      
+   
+</select>
+-->
+
+
+
+<select id="PSDSELECT"  resultType="PsdVo" parameterType="PsdVo">
+   <![CDATA[
+	  select rownum, K.* 
+	   from 
+	     (select rownum as rnum, M.*
+	      from (select * from shopping1000 
+	      
+	          WHERE 1=1
+	         ]]>
+	         	
+			  <if test="ch1=='title'" >
+      <![CDATA[
+        and  title  like '%'||#{ch2}||'%'
+      ]]>
+    
+   </if>
+   <if test="ch1=='pname'" >
+       <![CDATA[
+         and  pname  like '%'||#{ch2}||'%'
+       ]]>
+   </if>
+	      
+	         <![CDATA[
+	       order by pcode desc) M
+	      where rownum <= #{startIdx}+4) K
+	  where RNUM >= #{startIdx}
+   ]]>	
+
+</select>
+
+
+
+
+
+
+
+<insert id="PSDINSERT" parameterType="PsdVo"   >
+  insert  into shopping1000(pcode, title,pname, price,quantity,shipping,img, imgtype, imgsize, rdate   ) 
+  values(s0407.nextval ,#{title},#{pname}, #{price},#{quantity},#{shipping},#{img}, #{imgtype}, #{imgsize}, #{rdate} ) 
+</insert>
+
+
+<select id="PSDCONTENT"  parameterType="PsdVo"  resultType="PsdVo">
+   select  *  from  shopping1000 where pcode=#{pcode}
+</select>
+
+
+<delete id="PSDDELETE"  parameterType="PsdVo" >
+  delete  from  shopping1000 where pcode=#{pcode}
+</delete>
+
+<update id="PSDUPDATEFILE">
+  update shopping1000
+  set title=#{title} ,pname=#{pname}, price=#{price},quantity=#{quantity},shipping=#{shipping}, img=#{img}, imgtype=#{imgtype}, imgsize=#{imgsize} 
+  where pcode=#{pcode}  
+</update>
+ 
+<update id="PSDUPDATE">
+  update shopping1000 
+  set title=#{title} ,pname=#{pname}, price=#{price},quantity=#{quantity},shipping=#{shipping} 
+  where pcode=#{pcode}  
+</update>
+
+
+<select id="TOTALCOUNT"  parameterType="PsdVo"  resultType="PsdVo">
+	  select count(*) as B1 from shopping1000
+	  where 1=1
+	
+	  <if test="ch1=='title'" >
+      <![CDATA[
+        and  title  like '%'||#{ch2}||'%'
+      ]]>
+    
+   </if>
+   <if test="ch1=='pname'" >
+       <![CDATA[
+         and  pname  like '%'||#{ch2}||'%'
+       ]]>
+   </if>   
+</select>
+
+
+
+</mapper>
